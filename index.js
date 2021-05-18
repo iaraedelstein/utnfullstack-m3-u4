@@ -1,35 +1,31 @@
 const express = require('express');
-const mysql = require('mysql');
-const util = require('util');
-const restaurantApi = require('./api/restaurant');
+
+const restaurantRouter = require('./api/restaurant');
+const reviewRouter = require('./api/review');
 
 var app = express();
 const port = 3000;
 
+//middleware
+app.use(express.static(`${__dirname}/public`));
+app.use(express.urlencoded());
+
 //Mapeo de peticion a object js
 app.use(express.json());
 
-//Conexión a la DB
-const conn = mysql.createConnection({
-    host: 'localhost',
-    port: 3306,
-    user: 'testUser',
-    password: '1234',
-    database: 'restaurant_reviews',
-});
-conn.connect((error) => {
-    if (error) throw error;
-    console.log('Se estableción la conexión con la DB');
+// Desarrollo APIS lógica de negocio
+app.use('/restaurant', restaurantRouter);
+app.use('/review', reviewRouter);
+
+//Pages
+app.get('/', (req, res) => {
+    res.status(404).sendFile('public/index.html', { root: __dirname });
 });
 
-// Permite el uso de async await para un código más ordenado al generar queries
-// Transforma una query que trabaja con callbacks a una promise
-// async await solo trabaja con promises no con callbacks
-const qy = util.promisify(conn.query).bind(conn);
-
-// Desarrollo lógica de negocio
-
-restaurantApi(app, qy);
+//Error page
+app.get('*', (req, res) => {
+    res.status(404).sendFile('public/404.html', { root: __dirname });
+});
 
 app.listen(port, () => {
     console.log('Servidor escuchando en el puerto ', port);
