@@ -81,7 +81,7 @@ router.post('/', async(req, res) => {
                 name: restaurant_name,
             },
         };
-        res.send(restaurantCreated);
+        res.redirect('/success');
     } catch (e) {
         console.error(e.message);
         res.status(413).send({ error: e.message });

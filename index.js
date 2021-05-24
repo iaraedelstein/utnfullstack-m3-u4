@@ -7,6 +7,7 @@ var app = express();
 const port = 3000;
 
 //middleware
+//app.use('/static', express.static(__dirname + '/public'));
 app.use(express.static(`${__dirname}/public`));
 app.use(express.urlencoded());
 
@@ -14,18 +15,19 @@ app.use(express.urlencoded());
 app.use(express.json());
 
 // Desarrollo APIS lógica de negocio
-app.use('/restaurant', restaurantRouter);
-app.use('/review', reviewRouter);
+app.use('/api/restaurant', restaurantRouter);
+app.use('/api/review', reviewRouter);
 
 //Pages
 app.get('/', (req, res) => {
-    res.status(404).sendFile('public/index.html', { root: __dirname });
+    res.status(200).sendFile('public/index.html', { root: __dirname });
 });
-
+app.get('/success', (req, res) => {
+    res.status(200).sendFile('public/success.html', { root: __dirname });
+});
 app.get('/reviews', (req, res) => {
-    res.status(404).sendFile('public/reviews.html', { root: __dirname });
+    res.status(200).sendFile('public/reviews.html', { root: __dirname });
 });
-
 //Error page
 app.get('*', (req, res) => {
     res.status(404).sendFile('public/404.html', { root: __dirname });
