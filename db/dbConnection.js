@@ -10,6 +10,7 @@ const util = require('util');
     database: 'restaurant_review',
 });*/
 
+//Conexión a la DB Heroku
 const conn = mysql.createConnection({
     host: 'us-cdbr-east-03.cleardb.com',
     port: 3306,
