@@ -4,7 +4,7 @@ const restaurantRouter = require('./api/restaurant');
 const reviewRouter = require('./api/review');
 
 var app = express();
-const port = 3000;
+const port = process.env.PORT || 3000;
 
 //middleware
 //app.use('/static', express.static(__dirname + '/public'));
