@@ -15,7 +15,7 @@ const qy = require('../db/dbConnection');
 router.get('/', async(req, res) => {
     try {
         const query =
-            'SELECT rw.id as review_id, rw.value, rw.description, rt.id as restaurant_id, rt.name as restaurant_name ' +
+            'SELECT rw.id as review_id, rw.user_name as username, rw.value, rw.description, rt.id as restaurant_id, rt.name as restaurant_name ' +
             'FROM review rw ' +
             'INNER JOIN restaurant rt ON rt.id = rw.restaurant_id; ';
         const respuesta = await qy(query);
@@ -30,7 +30,7 @@ router.get('/', async(req, res) => {
 router.get('/:review_id', async(req, res) => {
     try {
         const query =
-            'SELECT rw.id as review_id, rw.value, rw.description, rt.id as restaurant_id, rt.name as restaurant_name ' +
+            'SELECT rw.id as review_id, rw.user_name as username, rw.value, rw.description, rt.id as restaurant_id, rt.name as restaurant_name ' +
             'FROM review rw INNER JOIN restaurant rt ON rt.id = rw.restaurant_id WHERE rw.id = ?; ';
         const respuesta = await qy(query, [req.params.review_id]);
         if (respuesta.length > 0) {
@@ -50,6 +50,7 @@ const reviewMapper = (reviewResult) => {
     return {
         id: reviewResult.review_id,
         value: reviewResult.value,
+        username: reviewResult.username,
         description: reviewResult.description,
         restaurant: {
             id: reviewResult.restaurant_id,
