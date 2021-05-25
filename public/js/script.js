@@ -2,6 +2,7 @@ const tableContent = document.querySelector('#tableContent');
 
 const getReviews = async() => {
     const response = await fetch('/api/review');
+    console.log(response.url);
     const reviews = await response.json();
     reviews.forEach((review) => {
         const { username, value, description } = review;
