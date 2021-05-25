@@ -14,7 +14,7 @@ app.use(express.urlencoded());
 //Mapeo de peticion a object js
 app.use(express.json());
 
-// Desarrollo APIS lógica de negocio
+// Desarrollo API lógica de negocio
 app.use('/api/restaurant', restaurantRouter);
 app.use('/api/review', reviewRouter);
 
